@@ -128,7 +128,7 @@
   .card h3{ font-family:var(--serif); font-weight:500; font-size:clamp(21px,2.4vw,26px); letter-spacing:-.01em; margin:14px 0 10px; line-height:1.18; }
   .card p{ margin:0; color:var(--ink-soft); font-size:15.5px; line-height:1.55; }
   .card .tags{ margin-top:auto; padding-top:20px; display:flex; flex-wrap:wrap; gap:10px; }
-  .card .tags span{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); letter-spacing:.02em; }
+  .card .tags span{ font-family:var(--mono); font-size:11px; color:var(--rust); letter-spacing:.02em; }
   .card .go{ position:absolute; top:clamp(24px,3vw,36px); right:clamp(24px,3vw,36px); color:var(--line); font-size:18px; transition:color .2s ease, transform .2s ease; }
   .card:hover .go{ color:var(--rust); transform:translate(2px,-2px); }
 
@@ -403,8 +403,8 @@ stage.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preve
             link  -> the URL (only used when live is true)
 ------------------------------------------------- */
 const ITEMS = [
+  { live:true,  type:'Teardown', title:'Searchable: A Retention Teardown from 92 reviews', blurb:'Mined 92 public G2 reviews to infer who churns, what actually activates users, and where the AI agent loses trust - no internal data, three testable patterns, and a pitch for their first data hire.', tags:['B2B SaaS','Retention','Product Analytics'], link:'https://joyous-termite-c47.notion.site/Searchable-Product-Teardown-36ada2752ad880c9b6e4f7ea88bc1e6a?source=copy_link' },
   { live:true,  type:'Project',  title:'Wind-turbine blade damage detection', blurb:'Trained R-CNN, YOLOv7 and YOLOv8 on drone imagery of the Nordtank turbine to separate dirt from real damage. YOLOv8 hit 96% precision, 92% recall (F1 94%).', tags:['Python','Computer Vision','YOLOv8'], link:'https://github.com/nandnii' },
-  { live:true,  type:'Teardown', title:'Searchable: a retention teardown from 92 reviews', blurb:'Mined 92 public G2 reviews to infer who churns, what actually activates users, and where the AI agent loses trust - no internal data, three testable patterns, and a pitch for their first data hire.', tags:['B2B SaaS','Retention','Product Analytics'], link:'https://joyous-termite-c47.notion.site/Searchable-Product-Teardown-36ada2752ad880c9b6e4f7ea88bc1e6a?source=copy_link' },
   { live:false, type:'Teardown', title:'Profound & the answer-engine bet', blurb:'What a consumer-AI product actually measures when the "page view" is dead. Notes on the new metrics.', tags:['Consumer AI','Metrics'], link:'#' },
   { live:false, type:'Project',  title:'Churn early-warning model', blurb:'A gradient-boosted model that scores accounts weekly and hands GTM a ranked save-list. Shipped, not slideware.', tags:['Python','XGBoost','dbt'], link:'#' },
   { live:false, type:'Project',  title:'Activation funnel, re-cut', blurb:'Found the real drop-off hiding behind a vanity metric; the fix lifted week-1 activation by X%.', tags:['SQL','Experimentation'], link:'#' },
