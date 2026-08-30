@@ -92,6 +92,7 @@
   .about-col p{ font-size:clamp(17px,1.55vw,19px); line-height:1.62; margin:0 0 1.05em; }
   .about-col p:last-child{ margin-bottom:0; }
   .about-col a{ color:var(--rust); } .about-col a:hover{ text-decoration:underline; text-underline-offset:4px; }
+  .accent{ color:var(--rust); font-weight:600; }
 
   .stats{ display:flex; justify-content:space-between; align-items:flex-start; gap:clamp(20px,3vw,40px); flex-wrap:wrap;
     margin-top:46px; padding-top:40px; border-top:1px solid var(--line); }
@@ -155,9 +156,9 @@
     <nav>
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
-      <a href="#writing">Writing</a>
+      <a href="#writing">Projects</a>
       <a href="#contact">Contact</a>
-      <a class="resume" href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Résumé ↗</a>
+      <a class="resume" href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Resume ↗</a>
     </nav>
   </div>
 </header>
@@ -166,9 +167,9 @@
 <div class="hero-wrap wrap">
   <div class="hero">
     <div class="hero-copy">
-      <span class="eyebrow">One signal, several disciplines</span>
+      <!-- <span class="eyebrow">One signal, several disciplines</span> -->
       <h1>Same signal,<br>different <em>answers</em>.</h1>
-      <p>Hi! I'm Nandni. I take ambiguous, messy inputs - funnels, tickets, experiments, unlabelled behaviour and turn them into whatever a team actually needs next: a metric, a decision, a shipped test.</p>
+      <p>Hi! I'm Nandni. I take ambiguous, messy inputs - funnels, tickets, experiments, unlabelled behaviour and turn them into whatever a team actually needs next: a metric, a decision, a shipped test or a peaceful Saturday :) </p>
       <div class="roles">PRODUCT ANALYTICS · B2B SaaS · CONSUMER AI</div>
     </div>
 
@@ -179,15 +180,6 @@
         <!-- input scribble (messy raw signal) -->
         <path class="scribble" id="scribble" d="M20,210 C34,180 46,240 60,205 C70,180 78,225 92,195 C102,175 108,220 124,198" />
         <text x="18" y="248" class="label">raw signal</text>
-
-        <!-- checkpoint nodes -->
-        <circle class="node node-active" cx="150" cy="205" r="6"></circle>
-        <circle class="node" cx="230" cy="150" r="6"></circle>
-        <circle class="node" cx="230" cy="255" r="6"></circle>
-        <circle class="node node-active" cx="310" cy="200" r="6"></circle>
-        <circle class="node" cx="390" cy="120" r="6"></circle>
-        <circle class="node node-navy" cx="390" cy="200" r="6"></circle>
-        <circle class="node" cx="390" cy="285" r="6"></circle>
 
         <!-- background mesh (quiet, unlit connections) -->
         <g class="edge">
@@ -202,6 +194,15 @@
 
         <!-- the lit path -->
         <path class="path-main" id="trunk" d="M124,198 L150,205 L230,150 L310,200 L390,200" />
+
+        <!-- checkpoint nodes -->
+        <circle class="node node-active" cx="150" cy="205" r="6"></circle>
+        <circle class="node" cx="230" cy="150" r="6"></circle>
+        <circle class="node" cx="230" cy="255" r="6"></circle>
+        <circle class="node node-active" cx="310" cy="200" r="6"></circle>
+        <circle class="node" cx="390" cy="120" r="6"></circle>
+        <circle class="node node-navy" cx="390" cy="200" r="6"></circle>
+        <circle class="node" cx="390" cy="285" r="6"></circle>
 
         <text x="146" y="176" class="label" text-anchor="end">clean</text>
         <text x="310" y="167" class="label" text-anchor="middle">model</text>
@@ -225,12 +226,12 @@
         <g class="branch" data-i="1">
           <path class="path-navy" d="M390,200 L470,200" />
           <circle class="node node-navy" cx="470" cy="200" r="5"></circle>
-          <g transform="translate(505,178)">
+          <g transform="translate(505,198)">
             <g class="out-icon">
               <path d="M0,0 L28,0 M28,0 L22,-6 M28,0 L22,6"/>
-              <circle cx="0" cy="0" r="3" fill="#2E3D4E" stroke="none"/>
+              <circle cx="0" cy="0" r="3" fill="var(--navy)" stroke="none"/>
             </g>
-            <text x="0" y="44" class="out-label">a call to make</text>
+            <text x="0" y="30" class="out-label">a call to make</text>
           </g>
         </g>
 
@@ -247,6 +248,9 @@
           </g>
         </g>
 
+        <!-- redraw the shared fork origin last, so it stays on top of all three branch lines -->
+        <circle class="node node-navy" cx="390" cy="200" r="6"></circle>
+
       </svg>
     </div>
   </div>
@@ -255,13 +259,14 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">01 <span class="dot">/</span> about</span><h2>The short version</h2></div>
+    <div class="sec-head"><span class="eyebrow">01 <span class="dot">/</span> about</span><h2>The long version</h2></div>
 
     <div class="about-col">
-      <p>3 years across fintech, gaming, quick-commerce and consumer tech. Right now, I'm a Senior Data Analyst at <a href="https://blinkit.com/" target="_blank" rel="noopener">Blinkit</a> (India's Instacart) working on the supply-chain and workforce problems behind India's leading quick-commerce brand. Before that, <a href="https://www.quora.com/" target="_blank" rel="noopener">Quora</a> and <a href="https://jupiter.money/" target="_blank" rel="noopener">Jupiter</a>, building the analysis and experimentation behind product and growth decisions.</p>
-      <p>I've also done UI/UX design work for an early-stage startup (pre-launch, in ideation) founded by a <a href="https://www.gsb.stanford.edu/" target="_blank" rel="noopener">Stanford GSB</a> Bothra Chan Fellow. Enough product and design exposure to be useful in a room full of designers and PMs, not just analysts.</p>
-      <p>Outside work I sing, play piano, and occasionally teach - and I'm slowly deepening my grip on the statistics underneath all this.</p>
-      <p>I write <a href="#writing">teardowns and notes</a> as I go, mostly to think in public.</p>
+      <p><span class="accent">Can analyzing industry trends really drive a 55% increase in revenue? Apparently, yes!</span> That was one of my first analytics projects at <a href="https://www.quora.com/" target="_blank" rel="noopener" class="accent">Quora</a>, and probably when I realised I really liked the detective work behind the numbers.</p>
+      <p>Since then, I've worked across fintech, gaming, and quick commerce, with a slightly unusual detour into UI/UX work with an early-stage startup, pre-launch, founded by a <a href="https://www.gsb.stanford.edu/" target="_blank" rel="noopener" class="accent">Stanford GSB</a> Botha Chan Fellow.</p>
+      <p>I like getting close to the actual problem; digging through behavioural data, designing experiments, building the metrics underneath them, and occasionally figuring out why two perfectly reasonable numbers disagree (<span class="accent">Twyman's Law</span>).</p>
+      <p>These days, I'm going deeper into statistics &amp; experimentation. Outside work, I sing, play piano, and occasionally teach.</p>
+      <p>I write <a href="#writing" class="accent">teardowns and notes</a> as I go, mostly to think in public.</p>
     </div>
 
     <div class="stats">
@@ -272,7 +277,7 @@
 
     <dl class="facts">
       <div class="fact"><dt>Currently</dt><dd>Senior Data Analyst @ <a href="https://blinkit.com" target="_blank" rel="noopener">Blinkit</a></dd></div>
-      <div class="fact"><dt>Focus</dt><dd>Product analytics · experimentation · statistics</dd></div>
+      <div class="fact"><dt>Focus</dt><dd>Product analytics · Experimentation · Statistics</dd></div>
       <div class="fact"><dt>Stack</dt><dd>SQL · Python · dbt · Airflow · Amplitude · Tableau</dd></div>
     </dl>
   </div>
@@ -287,7 +292,7 @@
       <div class="years">2024 - now</div>
       <div>
         <h3>Senior Data Analyst <span class="co">· Blinkit</span></h3>
-        <div class="note">Warehouse ops -> manpower</div>
+        <div class="note">Warehouse manpower</div>
         <ul>
           <li>Replaced HR's manual payout math with a real-time, API-driven payout engine - the transparency to scale from <b>~50 to 18,000</b> on-demand workers pan-India.</li>
           <li>Shipped a predictive manpower model (order forecasts × absenteeism) on Airflow that replaced manual scheduling and cut slot-creation latency <b>93%</b> (2 hrs to 8 min).</li>
@@ -333,10 +338,10 @@
   </div>
 </section>
 
-<!-- WRITING & PROJECTS -->
+<!-- PROJECTS & WRITING -->
 <section id="writing">
   <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">03 <span class="dot">/</span> writing &amp; projects</span><h2>Notes &amp; things I've built</h2></div>
+    <div class="sec-head"><span class="eyebrow">03 <span class="dot">/</span> project &amp; writings</span><h2>Notes &amp; things I've built</h2></div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -348,9 +353,9 @@
     <h2>Have a messy question?<br><a class="mail" href="mailto:nandnican@gmail.com">Let's talk.</a></h2>
     <div class="socials">
       <a href="mailto:nandnican@gmail.com">Email</a>
-      <a href="https://www.linkedin.com/in/nandnisrivastava/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://www.linkedin.com/in/nandnisrivastava/" target="_blank" rel="noopener">Linkedin ↗</a>
       <a href="https://github.com/nandnii" target="_blank" rel="noopener">GitHub ↗</a>
-      <a href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Résumé ↗</a>
+      <a href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Resume ↗</a>
     </div>
   </div>
 </section>
