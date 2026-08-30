@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nandni Srivastava - Data Science · Product · Analytics</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:   #F5F2EA;
+    --paper-2: #EFEBE0;
+    --ink:     #211E19;
+    --ink-soft:#6B655B;
+    --line:    #CEC8BB;
+    --rust:    #B5431C;
+    --navy:    #2E3D4E;
+
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono:  "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --maxw: 1340px;
+    --gutter: clamp(18px, 3.5vw, 40px);
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--rust); color:var(--paper); }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--gutter); }
+
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); }
+  .eyebrow .dot{ color:var(--rust); }
+
+  /* Header */
+  header{ position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid transparent; transition:border-color .3s ease; }
+  header.scrolled{ border-color:var(--line); }
+  .bar{ display:flex; align-items:center; justify-content:space-between; height:74px; }
+  .mark{ font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:-.01em; }
+  .mark .dot{ color:var(--rust); }
+  nav{ display:flex; gap:28px; align-items:center; }
+  nav a{ font-family:var(--mono); font-size:13px; letter-spacing:.03em; color:var(--ink-soft); position:relative; }
+  nav a::after{ content:""; position:absolute; left:0; bottom:-5px; width:0; height:1px; background:var(--rust); transition:width .25s ease; }
+  nav a:hover{ color:var(--ink); } nav a:hover::after{ width:100%; }
+  nav a.resume{ color:var(--rust); }
+  @media (max-width:760px){ nav a:not(.resume){ display:none; } .bar{ height:62px; } }
+
+  /* Hero */
+  .hero-wrap{ padding-top:clamp(28px,5vw,60px); padding-bottom:clamp(40px,7vw,92px); }
+  .hero{ display:grid; grid-template-columns:.82fr 1.18fr; gap:clamp(28px,5vw,72px); align-items:center; }
+  @media (max-width:880px){ .hero{ grid-template-columns:1fr; gap:34px; } }
+
+  .hero-copy .eyebrow{ display:block; color:var(--rust); }
+  .hero-copy h1{ font-family:var(--serif); font-weight:400; font-size:clamp(34px,4.4vw,58px); line-height:1.04; letter-spacing:-.02em; margin:16px 0 0; }
+  .hero-copy h1 em{ font-style:italic; color:var(--rust); }
+  .hero-copy p{ font-size:clamp(16px,1.35vw,18px); line-height:1.62; max-width:46ch; margin:22px 0 0; color:var(--ink); }
+  .roles{ margin-top:clamp(26px,3.5vw,40px); font-family:var(--mono); font-size:12px; letter-spacing:.16em; color:var(--ink-soft); }
+
+  .hero-visual svg{ width:100%; height:auto; display:block; overflow:visible; cursor:pointer; }
+  .hero-visual svg:focus-visible{ outline:2px solid var(--rust); outline-offset:8px; border-radius:6px; }
+  .hint{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); margin-top:10px; text-align:center; }
+  .hint b{ color:var(--rust); font-weight:400; }
+
+  /* diagram parts */
+  .scribble{ fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .label{ font-family:var(--mono); font-size:12px; letter-spacing:.06em; fill:var(--ink-soft); }
+  .node{ fill:var(--paper); stroke:var(--line); stroke-width:1.6; }
+  .node-active{ fill:var(--rust); stroke:none; }
+  .node-navy{ fill:var(--navy); stroke:none; }
+  .edge line{ stroke:var(--line); stroke-width:1.3; }
+  .path-main{ fill:none; stroke:var(--rust); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
+  .path-navy{ fill:none; stroke:var(--navy); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
+  .out-icon{ fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .out-icon rect{ fill:none; }
+  .out-label{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:16px; fill:var(--ink); }
+  .branch{ opacity:.26; transition:opacity .45s ease; }
+  .branch.on{ opacity:1; }
+
+  /* Sections */
+  section{ padding-block:clamp(52px,7.5vw,104px); border-top:1px solid var(--line); }
+  .sec-head{ display:grid; gap:8px; margin-bottom:clamp(28px,4vw,50px); }
+  .sec-head h2{ font-family:var(--serif); font-weight:400; font-size:clamp(30px,4vw,46px); letter-spacing:-.02em; margin:0; }
+
+  /* About */
+  .about-col{ max-width:none; }
+  .about-col p{ font-size:clamp(17px,1.55vw,19px); line-height:1.62; margin:0 0 1.05em; }
+  .about-col p:last-child{ margin-bottom:0; }
+  .about-col a{ color:var(--rust); } .about-col a:hover{ text-decoration:underline; text-underline-offset:4px; }
+
+  .stats{ display:flex; justify-content:space-between; align-items:flex-start; gap:clamp(20px,3vw,40px); flex-wrap:wrap;
+    margin-top:46px; padding-top:40px; border-top:1px solid var(--line); }
+  .stat{ max-width:24ch; }
+  .stat .n{ font-family:var(--serif); font-size:clamp(34px,4.6vw,52px); color:var(--rust); line-height:.95; letter-spacing:-.02em; white-space:nowrap; }
+  .stat .l{ font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-soft); margin-top:12px; }
+  @media (max-width:640px){ .stats{ flex-direction:column; gap:30px; } }
+
+  .facts{ margin-top:40px; border-top:1px solid var(--line); }
+  .fact{ display:grid; grid-template-columns:150px 1fr; gap:16px; padding:15px 0; border-bottom:1px solid var(--line); }
+  .fact dt{ font-family:var(--mono); font-size:12px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-soft); }
+  .fact dd{ margin:0; } .fact dd a{ color:var(--rust); }
+  @media (max-width:560px){ .fact{ grid-template-columns:1fr; gap:4px; } }
+
+  /* Experience */
+  .role{ display:grid; grid-template-columns:150px 1fr; gap:clamp(16px,3vw,48px); padding:30px 0; border-bottom:1px solid var(--line); }
+  .role:first-of-type{ border-top:1px solid var(--line); }
+  .role .years{ font-family:var(--mono); font-size:13px; letter-spacing:.03em; color:var(--ink-soft); padding-top:6px; }
+  .role h3{ font-family:var(--sans); font-weight:600; font-size:20px; margin:0; letter-spacing:-.005em; }
+  .role h3 .co{ color:var(--rust); font-weight:600; }
+  .role .note{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-top:5px; }
+  .role ul{ margin:14px 0 0; padding:0; list-style:none; }
+  .role li{ position:relative; padding-left:22px; margin-bottom:9px; line-height:1.5; }
+  .role li::before{ content:""; position:absolute; left:2px; top:.62em; width:6px; height:6px; border-radius:50%; background:var(--rust); }
+  .role li b{ font-weight:600; }
+  @media (max-width:640px){ .role{ grid-template-columns:1fr; gap:8px; } }
+
+  /* Writing & projects */
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:680px){ .grid{ grid-template-columns:1fr; } }
+  .card{ background:var(--paper); padding:clamp(24px,3vw,36px); display:flex; flex-direction:column; min-height:210px; position:relative; transition:background .2s ease; }
+  .card:hover{ background:var(--paper-2); }
+  .card .type{ font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--rust); }
+  .card h3{ font-family:var(--serif); font-weight:500; font-size:clamp(21px,2.4vw,26px); letter-spacing:-.01em; margin:14px 0 10px; line-height:1.18; }
+  .card p{ margin:0; color:var(--ink-soft); font-size:15.5px; line-height:1.55; }
+  .card .tags{ margin-top:auto; padding-top:20px; display:flex; flex-wrap:wrap; gap:10px; }
+  .card .tags span{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); letter-spacing:.02em; }
+  .card .go{ position:absolute; top:clamp(24px,3vw,36px); right:clamp(24px,3vw,36px); color:var(--line); font-size:18px; transition:color .2s ease, transform .2s ease; }
+  .card:hover .go{ color:var(--rust); transform:translate(2px,-2px); }
+
+  /* Contact */
+  .contact h2{ font-family:var(--serif); font-weight:400; font-size:clamp(38px,7vw,80px); letter-spacing:-.03em; line-height:1.02; margin:14px 0 0; }
+  .contact .mail{ font-family:var(--serif); font-style:italic; color:var(--rust); }
+  .contact .mail:hover{ text-decoration:underline; text-underline-offset:6px; }
+  .socials{ display:flex; flex-wrap:wrap; gap:26px; margin-top:46px; }
+  .socials a{ font-family:var(--mono); font-size:13px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-soft); position:relative; }
+  .socials a::after{ content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--rust); transition:width .25s ease; }
+  .socials a:hover{ color:var(--ink); } .socials a:hover::after{ width:100%; }
+
+  footer{ border-top:1px solid var(--line); padding-block:34px; }
+  .foot{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--ink-soft); }
+
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap bar">
+    <a class="mark" href="#top">Nandni Srivastava<span class="dot">.</span></a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#writing">Writing</a>
+      <a href="#contact">Contact</a>
+      <a class="resume" href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-wrap wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">One signal, several disciplines</span>
+      <h1>Same signal,<br>different <em>answers</em>.</h1>
+      <p>Hi! I'm Nandni. I take ambiguous, messy inputs - funnels, tickets, experiments, unlabelled behaviour and turn them into whatever a team actually needs next: a metric, a decision, a shipped test.</p>
+      <div class="roles">PRODUCT ANALYTICS · B2B SaaS · CONSUMER AI</div>
+    </div>
+
+    <div class="hero-visual">
+      <svg id="stage" viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" tabindex="0"
+           aria-label="A raw signal flows through clean, model and decide stages, then forks into three different answers: a dashboard, a call to make, and a recommendation.">
+
+        <!-- input scribble (messy raw signal) -->
+        <path class="scribble" id="scribble" d="M20,210 C34,180 46,240 60,205 C70,180 78,225 92,195 C102,175 108,220 124,198" />
+        <text x="18" y="248" class="label">raw signal</text>
+
+        <!-- checkpoint nodes -->
+        <circle class="node node-active" cx="150" cy="205" r="6"></circle>
+        <circle class="node" cx="230" cy="150" r="6"></circle>
+        <circle class="node" cx="230" cy="255" r="6"></circle>
+        <circle class="node node-active" cx="310" cy="200" r="6"></circle>
+        <circle class="node" cx="390" cy="120" r="6"></circle>
+        <circle class="node node-navy" cx="390" cy="200" r="6"></circle>
+        <circle class="node" cx="390" cy="285" r="6"></circle>
+
+        <!-- background mesh (quiet, unlit connections) -->
+        <g class="edge">
+          <line x1="150" y1="205" x2="230" y2="150"/>
+          <line x1="150" y1="205" x2="230" y2="255"/>
+          <line x1="230" y1="150" x2="310" y2="200"/>
+          <line x1="230" y1="255" x2="310" y2="200"/>
+          <line x1="310" y1="200" x2="390" y2="120"/>
+          <line x1="310" y1="200" x2="390" y2="200"/>
+          <line x1="310" y1="200" x2="390" y2="285"/>
+        </g>
+
+        <!-- the lit path -->
+        <path class="path-main" id="trunk" d="M124,198 L150,205 L230,150 L310,200 L390,200" />
+
+        <text x="146" y="176" class="label" text-anchor="end">clean</text>
+        <text x="310" y="167" class="label" text-anchor="middle">model</text>
+        <text x="390" y="335" class="label" text-anchor="middle">decide</text>
+
+        <!-- fork: three different kinds of answer -->
+        <g class="branch" data-i="0">
+          <path class="path-main" d="M390,200 L470,120" />
+          <circle class="node node-active" cx="470" cy="120" r="5"></circle>
+          <g transform="translate(505,95)">
+            <g class="out-icon">
+              <line x1="0" y1="46" x2="0" y2="0"/>
+              <rect x="6" y="26" width="9" height="20"/>
+              <rect x="19" y="12" width="9" height="34"/>
+              <rect x="32" y="20" width="9" height="26"/>
+            </g>
+            <text x="0" y="66" class="out-label">a dashboard</text>
+          </g>
+        </g>
+
+        <g class="branch" data-i="1">
+          <path class="path-navy" d="M390,200 L470,200" />
+          <circle class="node node-navy" cx="470" cy="200" r="5"></circle>
+          <g transform="translate(505,178)">
+            <g class="out-icon">
+              <path d="M0,0 L28,0 M28,0 L22,-6 M28,0 L22,6"/>
+              <circle cx="0" cy="0" r="3" fill="#2E3D4E" stroke="none"/>
+            </g>
+            <text x="0" y="44" class="out-label">a call to make</text>
+          </g>
+        </g>
+
+        <g class="branch" data-i="2">
+          <path class="path-main" d="M390,200 L470,285" />
+          <circle class="node node-active" cx="470" cy="285" r="5"></circle>
+          <g transform="translate(505,262)">
+            <g class="out-icon">
+              <line x1="0" y1="0" x2="30" y2="0"/>
+              <line x1="0" y1="10" x2="24" y2="10"/>
+              <line x1="0" y1="20" x2="20" y2="20"/>
+            </g>
+            <text x="0" y="46" class="out-label">a recommendation</text>
+          </g>
+        </g>
+
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">01 <span class="dot">/</span> about</span><h2>The short version</h2></div>
+
+    <div class="about-col">
+      <p>3 years across fintech, gaming, quick-commerce and consumer tech. Right now, I'm a Senior Data Analyst at <a href="https://blinkit.com/" target="_blank" rel="noopener">Blinkit</a> (India's Instacart) working on the supply-chain and workforce problems behind India's leading quick-commerce brand. Before that, <a href="https://www.quora.com/" target="_blank" rel="noopener">Quora</a> and <a href="https://jupiter.money/" target="_blank" rel="noopener">Jupiter</a>, building the analysis and experimentation behind product and growth decisions.</p>
+      <p>I've also done UI/UX design work for an early-stage startup (pre-launch, in ideation) founded by a <a href="https://www.gsb.stanford.edu/" target="_blank" rel="noopener">Stanford GSB</a> Bothra Chan Fellow. Enough product and design exposure to be useful in a room full of designers and PMs, not just analysts.</p>
+      <p>Outside work I sing, play piano, and occasionally teach - and I'm slowly deepening my grip on the statistics underneath all this.</p>
+      <p>I write <a href="#writing">teardowns and notes</a> as I go, mostly to think in public.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">$6.2M</div><div class="l">inventory recovered via a 0→1 returns workflow</div></div>
+      <div class="stat"><div class="n">50 → 18,000</div><div class="l">on-demand workers scaled on a real-time payout engine</div></div>
+      <div class="stat"><div class="n">92%</div><div class="l">faster invoice lookups after rebuilding the pipeline</div></div>
+    </div>
+
+    <dl class="facts">
+      <div class="fact"><dt>Currently</dt><dd>Senior Data Analyst @ <a href="https://blinkit.com" target="_blank" rel="noopener">Blinkit</a></dd></div>
+      <div class="fact"><dt>Focus</dt><dd>Product analytics · experimentation · statistics</dd></div>
+      <div class="fact"><dt>Stack</dt><dd>SQL · Python · dbt · Airflow · Amplitude · Tableau</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">02 <span class="dot">/</span> experience</span><h2>Where I've done the work</h2></div>
+
+    <div class="role">
+      <div class="years">2024 - now</div>
+      <div>
+        <h3>Senior Data Analyst <span class="co">· Blinkit</span></h3>
+        <div class="note">Warehouse ops -> manpower</div>
+        <ul>
+          <li>Replaced HR's manual payout math with a real-time, API-driven payout engine - the transparency to scale from <b>~50 to 18,000</b> on-demand workers pan-India.</li>
+          <li>Shipped a predictive manpower model (order forecasts × absenteeism) on Airflow that replaced manual scheduling and cut slot-creation latency <b>93%</b> (2 hrs to 8 min).</li>
+          <li>Built a Return-to-Vendor workflow from <b>0 to 1</b>: a historical-inward ETL that dropped invoice lookups under <b>3s</b> and execution from an hour to <b>5 min</b> (-92%), unlocking <b>$480K</b> in returns in the pilot's first quarter.</li>
+          <li>Scaled RTV from <b>1 to 100</b> cities with cross-city billing logic - automating <b>1.2M+</b> units and recovering <b>$6.2M</b> in six months by extending it to expired and damaged stock.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="years">2023 - 24</div>
+      <div>
+        <h3>Data Analyst, CX <span class="co">· Jupiter Money</span></h3>
+        <ul>
+          <li>Went from shadowing a senior analyst to owning CX, Home Page &amp; Rewards in <b>7 months</b>.</li>
+          <li>Built <b>10+</b> dbt models for CX &amp; Credit Cards, centralizing the logic dashboards kept re-deriving.</li>
+          <li>Ran A/B tests and deep-dives for high-balance users that lifted CSAT <b>+5%</b> and cut tickets <b>16%</b>; automated a Home Page mailer that improved CTR <b>~7%</b> across 15+ offerings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="years">2023</div>
+      <div>
+        <h3>Data Analyst Intern <span class="co">· Mobile Premier League</span></h3>
+        <ul>
+          <li>Analyzed <b>45M+</b> Rummy users in SQL &amp; Python, tracking DAU, retention, churn and revenue through Tableau funnels to surface growth levers.</li>
+          <li>Automated app-version adoption tracking across Databricks, Slack and Sheets, replacing a manual report with real-time visibility.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="years">2021 - 22</div>
+      <div>
+        <h3>Data Analyst Intern <span class="co">· Quora</span></h3>
+        <ul>
+          <li>Analyzed ad-industry trends in SQL &amp; Python to find revenue gaps, contributing to a <b>55%</b> lift in B2B ad revenue (<b>$32K</b>).</li>
+          <li>Built a Tableau sales tracker with APAC teams that saved <b>8 hrs/week</b> of manual reporting.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING & PROJECTS -->
+<section id="writing">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">03 <span class="dot">/</span> writing &amp; projects</span><h2>Notes &amp; things I've built</h2></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <span class="eyebrow">04 <span class="dot">/</span> contact</span>
+    <h2>Have a messy question?<br><a class="mail" href="mailto:nandnican@gmail.com">Let's talk.</a></h2>
+    <div class="socials">
+      <a href="mailto:nandnican@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/nandnisrivastava/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/nandnii" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://drive.google.com/file/d/1ikmFkpWw4yAQ5DR0slPZ8vY16Zy9VOwB/view?usp=sharing" target="_blank" rel="noopener">Résumé ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Nandni Srivastava</span>
+    <span>Same signal, different answers.</span>
+  </div>
+</footer>
+
+<script>
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- HERO: cycle / hover the three answers ---------- */
+const stage = document.getElementById('stage');
+const branches = [...stage.querySelectorAll('.branch')];
+let active = 0, timer = null, paused = false;
+const setActive = i => branches.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
+const advance = () => { if(paused) return; active = (active + 1) % branches.length; setActive(active); };
+const play = () => { if(reduce) return; clearInterval(timer); timer = setInterval(advance, 2600); };
+
+if(reduce){
+  branches.forEach(b => b.classList.add('on'));
+} else {
+  ['scribble','trunk'].forEach((id,k)=>{ const p=document.getElementById(id); const L=p.getTotalLength();
+    p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+    p.style.transition=`stroke-dashoffset .8s ease ${k*.35}s`; requestAnimationFrame(()=>p.style.strokeDashoffset=0); });
+  setActive(0); setTimeout(play, 1200);
+}
+branches.forEach(b => {
+  b.addEventListener('mouseenter', ()=>{ paused=true; setActive(+b.dataset.i); });
+  b.addEventListener('mouseleave', ()=>{ paused=false; });
+});
+const step = ()=>{ active=(active+1)%branches.length; setActive(active); };
+stage.addEventListener('click', step);
+stage.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); step(); }});
+
+/* ---------- WRITING & PROJECTS ----------
+   HOW TO EDIT THIS SECTION:
+   Each { ... } below is one card. To publish a real post, do two things to its card:
+     1. set   live: true
+     2. set   link: 'https://your-post-url'   (Substack / Medium / Notion / wherever it lives)
+   To add a brand-new card, copy any line, paste it, and change the text.
+   Fields:  live  -> true = clickable & opens in a new tab | false = placeholder, no click
+            type  -> 'Project' | 'Teardown' | 'Writing'  (shown as the little label)
+            title -> the headline
+            blurb -> one or two sentences under the title
+            tags  -> the small words at the bottom, any number
+            link  -> the URL (only used when live is true)
+------------------------------------------------- */
+const ITEMS = [
+  { live:true,  type:'Project',  title:'Wind-turbine blade damage detection', blurb:'Trained R-CNN, YOLOv7 and YOLOv8 on drone imagery of the Nordtank turbine to separate dirt from real damage. YOLOv8 hit 96% precision, 92% recall (F1 94%).', tags:['Python','Computer Vision','YOLOv8'], link:'https://github.com/nandnii' },
+  { live:true,  type:'Teardown', title:'Searchable: a retention teardown from 92 reviews', blurb:'Mined 92 public G2 reviews to infer who churns, what actually activates users, and where the AI agent loses trust - no internal data, three testable patterns, and a pitch for their first data hire.', tags:['B2B SaaS','Retention','Product Analytics'], link:'https://joyous-termite-c47.notion.site/Searchable-Product-Teardown-36ada2752ad880c9b6e4f7ea88bc1e6a?source=copy_link' },
+  { live:false, type:'Teardown', title:'Profound & the answer-engine bet', blurb:'What a consumer-AI product actually measures when the "page view" is dead. Notes on the new metrics.', tags:['Consumer AI','Metrics'], link:'#' },
+  { live:false, type:'Project',  title:'Churn early-warning model', blurb:'A gradient-boosted model that scores accounts weekly and hands GTM a ranked save-list. Shipped, not slideware.', tags:['Python','XGBoost','dbt'], link:'#' },
+  { live:false, type:'Project',  title:'Activation funnel, re-cut', blurb:'Found the real drop-off hiding behind a vanity metric; the fix lifted week-1 activation by X%.', tags:['SQL','Experimentation'], link:'#' },
+  { live:false, type:'Writing',  title:'The dashboard nobody opened', blurb:'On why "more charts" is usually the wrong answer, and the one question that fixes most reporting.', tags:['Essay','Analytics'], link:'#' },
+];
+document.getElementById('grid').innerHTML = ITEMS.map(it => {
+  const inner = `
+    <span class="go">↗</span>
+    <span class="type">${it.type}</span>
+    <h3>${it.title}</h3>
+    <p>${it.blurb}</p>
+    <div class="tags">${it.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+  return it.live
+    ? `<a class="card" href="${it.link}" target="_blank" rel="noopener">${inner}</a>`   // clickable
+    : `<div class="card">${inner}</div>`;                                               // placeholder, no redirect
+}).join('');
+
+/* header hairline on scroll */
+const hdr = document.querySelector('header');
+addEventListener('scroll', ()=> hdr.classList.toggle('scrolled', scrollY>12));
+</script>
+</body>
+</html>
